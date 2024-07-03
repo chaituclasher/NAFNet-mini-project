@@ -35,9 +35,10 @@ def parse_options(is_train=True):
         default='none',
         help='job launcher')
     parser.add_argument('--local_rank', type=int, default=0)
-
     parser.add_argument('--input_path', type=str, required=False, help='The path to the input image. For single image inference only.')
+    parser.add_argument('--input_folder', type=str, required=False, help='The path to the input folder. For multiple image inference.')
     parser.add_argument('--output_path', type=str, required=False, help='The path to the output image. For single image inference only.')
+    parser.add_argument('--output_folder', type=str, required=False, help='The path to the output folder. For multiple image inference.')
 
     args = parser.parse_args()
     opt = parse(args.opt, is_train=is_train)
@@ -67,6 +68,11 @@ def parse_options(is_train=True):
         opt['img_path'] = {
             'input_img': args.input_path,
             'output_img': args.output_path
+        }
+    elif args.input_folder is not None and args.output_folder is not None:
+        opt['img_path'] = {
+            'input_folder': args.input_folder,
+            'output_folder': args.output_folder
         }
 
     return opt
